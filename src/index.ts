@@ -60,9 +60,8 @@ export default function (pi: ExtensionAPI) {
 		if (output > 0) parts.push(`↓${formatCompact(output)}`);
 		if (cacheRead > 0) parts.push(`R${formatCompact(cacheRead)}`);
 		if (cacheWrite > 0) parts.push(`W${formatCompact(cacheWrite)}`);
-		parts.push(`Σ${formatCompact(totalTokens)}`);
-		parts.push(`T${elapsedSeconds.toFixed(1)}s`);
 		parts.push(`⚡︎${Number(tokensPerSecond.toFixed(1)).toString()}`);
+		parts.push(`T${elapsedSeconds.toFixed(1)}s`);
 		if (totalCost > 0) parts.push(`$${formatCost(totalCost)}`);
 
 		ctx.ui.notify(parts.join(" "), "info");
