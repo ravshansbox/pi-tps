@@ -61,7 +61,7 @@ export default function (pi: ExtensionAPI) {
 		if (cacheRead > 0) parts.push(`R${formatCompact(cacheRead)}`);
 		if (cacheWrite > 0) parts.push(`W${formatCompact(cacheWrite)}`);
 		parts.push(`⚡︎${Number(tokensPerSecond.toFixed(1)).toString()}`);
-		parts.push(`T${elapsedSeconds.toFixed(1)}s`);
+		parts.push(`${elapsedSeconds.toFixed(1)}s`);
 		if (totalCost > 0) parts.push(`$${formatCost(totalCost)}`);
 
 		ctx.ui.notify(parts.join(" "), "info");
