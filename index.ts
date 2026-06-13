@@ -1,4 +1,4 @@
-import type { AssistantMessage } from "@earendil-works/pi-ai";
+import type { AssistantMessage, Model } from "@earendil-works/pi-ai";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 function isAssistantMessage(message: unknown): message is AssistantMessage {
@@ -16,6 +16,12 @@ function formatCompact(value: number): string {
 
 function formatCost(value: number): string {
 	return Number(value.toFixed(3)).toString();
+}
+
+function formatModelInfo(model: Model<any> | undefined, thinkingLevel: string): string | null {
+	if (!model) return null;
+	const thinking = model.reasoning ? thinkingLevel : "thinking off";
+	return `(${model.provider}) ${model.id} • ${thinking}`;
 }
 
 export default function (pi: ExtensionAPI) {
@@ -64,6 +70,9 @@ export default function (pi: ExtensionAPI) {
 		parts.push(`${elapsedSeconds.toFixed(1)}s`);
 		if (totalCost > 0) parts.push(`$${formatCost(totalCost)}`);
 
-		ctx.ui.notify(parts.join(" "), "info");
+		const modelInfo = formatModelInfo(ctx.model, pi.getThinkingLevel());
+		const notification = modelInfo ? `${parts.join(" ")} • ${modelInfo}` : parts.join(" ");
+
+		ctx.ui.notify(notification, "info");
 	});
 }
