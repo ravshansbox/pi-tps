@@ -1,5 +1,5 @@
 import type { AssistantMessage, Model } from "@earendil-works/pi-ai";
-import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { buildSessionContext, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 function isAssistantMessage(message: unknown): message is AssistantMessage {
 	if (!message || typeof message !== "object") return false;
@@ -20,7 +20,7 @@ function formatCost(value: number): string {
 
 function formatModelInfo(model: Model<any> | undefined, thinkingLevel: string): string | null {
 	if (!model) return null;
-	const thinking = model.reasoning ? thinkingLevel : "thinking off";
+	const thinking = thinkingLevel === "off" ? "thinking off" : thinkingLevel;
 	return `(${model.provider}) ${model.id} • ${thinking}`;
 }
 
@@ -70,7 +70,8 @@ export default function (pi: ExtensionAPI) {
 		parts.push(`${elapsedSeconds.toFixed(1)}s`);
 		if (totalCost > 0) parts.push(`$${formatCost(totalCost)}`);
 
-		const modelInfo = formatModelInfo(ctx.model, pi.getThinkingLevel());
+		const sessionContext = buildSessionContext(ctx.sessionManager.getEntries(), ctx.sessionManager.getLeafId());
+		const modelInfo = formatModelInfo(ctx.model, sessionContext.thinkingLevel || pi.getThinkingLevel());
 		const notification = modelInfo ? `${parts.join(" ")} • ${modelInfo}` : parts.join(" ");
 
 		ctx.ui.notify(notification, "info");
