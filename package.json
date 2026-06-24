@@ -2,17 +2,33 @@
   "name": "@ravshansbox/pi-tps",
   "version": "1.0.0",
   "description": "Tokens Per Second extension for pi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravshansbox/pi-tps.git"
+  },
+  "keywords": [
+    "pi",
+    "extension"
+  ],
+  "files": [
+    "index.ts",
+    "LICENSE"
+  ],
   "type": "module",
   "pi": {
     "extensions": [
       "./index.ts"
     ]
   },
-  "dependencies": {
+  "peerDependencies": {
     "@earendil-works/pi-ai": "*",
     "@earendil-works/pi-coding-agent": "*"
   },
   "devDependencies": {
     "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
   }
 }
