@@ -66,6 +66,11 @@ export default function (pi: ExtensionAPI) {
 		if (output > 0) parts.push(`↓${formatCompact(output)}`);
 		if (cacheRead > 0) parts.push(`R${formatCompact(cacheRead)}`);
 		if (cacheWrite > 0) parts.push(`W${formatCompact(cacheWrite)}`);
+		const promptTokens = input + cacheRead + cacheWrite;
+		if ((cacheRead > 0 || cacheWrite > 0) && promptTokens > 0) {
+			const cacheHitRate = (cacheRead / promptTokens) * 100;
+			parts.push(`CH${cacheHitRate.toFixed(1)}%`);
+		}
 		parts.push(`↯${Number(tokensPerSecond.toFixed(1)).toString()}`);
 		parts.push(`${elapsedSeconds.toFixed(1)}s`);
 		if (totalCost > 0) parts.push(`$${formatCost(totalCost)}`);
