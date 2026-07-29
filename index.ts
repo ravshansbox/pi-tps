@@ -20,6 +20,8 @@ function formatCost(value: number): string {
 
 function formatModelInfo(model: Model<any> | undefined, thinkingLevel: string): string | null {
 	if (!model) return null;
+	// Mirror pi's footer: only surface a thinking level for reasoning-capable models.
+	if (!model.reasoning) return `(${model.provider}) ${model.id}`;
 	const thinking = thinkingLevel === "off" ? "thinking off" : thinkingLevel;
 	return `(${model.provider}) ${model.id} • ${thinking}`;
 }
