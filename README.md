@@ -18,5 +18,5 @@ For example, after an assistant response finishes, pi can show a notification su
 
 ```bash
 npm install
-npm run typecheck
+npm run check
 ```
