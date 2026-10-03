@@ -1,4 +1,4 @@
-import type { AssistantMessage, Model } from '@earendil-works/pi-ai';
+import type { Api, AssistantMessage, Model } from '@earendil-works/pi-ai';
 import { buildSessionContext, type ExtensionAPI } from '@earendil-works/pi-coding-agent';
 
 function isAssistantMessage(message: unknown): message is AssistantMessage {
@@ -18,7 +18,7 @@ function formatCost(value: number): string {
   return Number(value.toFixed(3)).toString();
 }
 
-function formatModelInfo(model: Model<any> | undefined, thinkingLevel: string): string | null {
+function formatModelInfo(model: Model<Api> | undefined, thinkingLevel: string): string | null {
   if (!model) return null;
   // Mirror pi's footer: only surface a thinking level for reasoning-capable models.
   if (!model.reasoning) return `(${model.provider}) ${model.id}`;
@@ -45,7 +45,6 @@ export default function (pi: ExtensionAPI) {
     let output = 0;
     let cacheRead = 0;
     let cacheWrite = 0;
-    let totalTokens = 0;
     let totalCost = 0;
 
     for (const message of event.messages) {
@@ -54,7 +53,6 @@ export default function (pi: ExtensionAPI) {
       output += message.usage.output || 0;
       cacheRead += message.usage.cacheRead || 0;
       cacheWrite += message.usage.cacheWrite || 0;
-      totalTokens += message.usage.totalTokens || 0;
       totalCost += message.usage.cost?.total || 0;
     }
 
