@@ -5,7 +5,7 @@ Tokens-per-second notification extension for pi.
 ## Install
 
 ```bash
-pi install git:github.com/ravshansbox/pi-tps
+pi install npm:@ravshansbox/pi-tps
 ```
 
 ## Usage
