@@ -8,6 +8,8 @@ Tokens-per-second notification extension for pi.
 pi install npm:@ravshansbox/pi-tps
 ```
 
+Add `-l` to install it in project settings.
+
 ## Usage
 
 Pi loads the extension from `./index.ts` and shows a TUI notification after each agent run with token counts, throughput, elapsed time, and cost.
